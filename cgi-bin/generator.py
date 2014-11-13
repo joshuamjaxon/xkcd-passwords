@@ -233,6 +233,7 @@ def main():
 	# Print the rest of the webpage
 	print (
 	'''			</ul>
+				<h3><a href="\\index.html">Go Back . . .</a></h3>
 			</section>
 			<footer>
 				<p>&copy; Copyright 2014, Joshua Jackson.</p>
