@@ -1,0 +1,141 @@
+@font-face {
+	font-family: quicksand;
+	src: url(Quicksand-Regular.otf);
+}
+
+html {
+	background-color: #5C5C5C;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+header {
+	font-family: quicksand;
+	color: white;
+	text-align: center;
+	background: linear-gradient(#333333, #5C5C5C);
+	background: -webkit-linear-gradient(#333333, #5C5C5C);
+	background: -moz-linear-gradient(#333333, #5C5C5C);
+	background: -o-linear-gradient(#333333, #5C5C5C);
+}
+
+header h1 {
+	font-size: 48pt;
+	margin-top: 0px;
+	padding-top: 32px;
+	margin-bottom: 10px;
+}
+
+header h2 {
+	font-size: 12pt;
+}
+
+nav {
+	display: inline-block;
+	position: relative;
+	left: calc(50% - 325px);
+	font-family: quicksand;
+	font-size: 14pt;
+	text-align: center;
+	border-radius: 15px;
+	background: #333333;
+}
+
+nav ul {
+	display: inline-block;
+	margin: 5px;
+	margin-bottom: 0px;
+	padding: 0px;
+}
+
+nav li {
+	list-style-type: none;
+	float: left;
+}
+
+nav a {
+	display: block;
+	width: 150px;
+	color: white;
+	text-decoration: none;
+	border-radius: 15px;
+	padding: 5px;
+}
+
+nav a:hover{
+	background-color: #555555
+}
+
+section {
+	font-family: quicksand;
+	border-style: solid;
+	border-radius: 15px;
+	border-width: 4px;
+	background-color: white;
+	min-width: 800px;
+	width: 50%;
+	margin: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 32px;
+}
+
+section h1, h2, h3, h4, h5, h6 {
+	text-align: center;
+}
+
+section table {
+	width: 50%;
+	min-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 15px;
+	border-width: 4px;
+	border-style: solid;
+	border-color: black;
+	margin-bottom: 5px;
+}
+
+section th {
+	border-style: none;
+	width: 150px;
+}
+
+section td {
+	border-style: none;
+	padding: 10px;
+}
+
+figure img {
+	display: block;
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+figure p {
+	font-size: 10pt;
+	text-align: center;
+	margin: 5px;
+}
+
+footer {
+	font-family: quicksand;
+	font-size: 10pt;
+	text-align: center;
+	color: white;
+	margin: 0px;
+	padding-bottom: 5px;/*
+	background: linear-gradient(#5C5C5C, #333333);
+	background: -webkit-linear-gradient(#5C5C5C, #333333);
+	background: -moz-linear-gradient(#5C5C5C, #333333);
+	background: -o-linear-gradient(#5C5C5C, #333333);*/
+}
+
+footer p {
+	margin: 0px;
+	padding: 10px;
+}

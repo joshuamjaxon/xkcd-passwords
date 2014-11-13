@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Password Generator</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<style>
+			label {
+				display: block;
+				text-align: center;
+			}
+			
+			.subsection {
+				font-size: 14pt;
+			}
+			
+			input {
+				display: block;
+				font-family: Quicksand;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#substitutions td {
+				padding-left: 23px;
+			}
+			
+			.optiontable {
+				border: none;
+			}
+			
+			.numberfield {
+				position: relative;
+				margin-top: 10px;
+				height: 50px;
+				width: 50px;
+				text-align: center;
+				font-size: 14pt;
+			}
+			
+			#optimize {
+				margin-top: 10px;
+			}
+			
+			#submit {
+				width: 100px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<script>
+			// Returns true if value is a number, returns false if it isn't
+			function isNumber(value)
+			{
+				return !isNaN(parseInt(value));
+			}
+			
+			// Checks to see if the text input fields hold valid values
+			function validateFields()
+			{
+				// Get each text input element
+				var minlength = document.getElementById('minlength');
+				var maxlength = document.getElementById('maxlength');
+				var length = document.getElementById('length');
+				
+				// Assume all three inputs are valid
+				var valid = true;
+				
+				// Get h3 element displaying error messages
+				var errorMessage = document.getElementById('error');
+				
+				// If the minimum word length is not or it is less than two,
+				// then turn all fields red and set valid to false
+				if (!isNumber(minlength.value) || parseInt(minlength.value) < 2)
+				{
+					minlength.style.backgroundColor = "#E68A8A";
+					maxlength.style.backgroundColor = "#E68A8A";
+					length.style.backgroundColor = "#E68A8A";
+					errorMessage.innerText = "Make sure the minimum word length is at least 2!";
+					valid = false;
+				}
+				// Otherwise, make all fields white and assume they are all valid
+				else
+				{
+					minlength.style.backgroundColor = "#FFFFFF";
+					maxlength.style.backgroundColor = "#FFFFFF";
+					length.style.backgroundColor = "#FFFFFF";
+					errorMessage.innerText = "";
+					
+					// If the maximum word length is not a number or it is less than the minimum length,
+					// then turn the maxlength field red and set valid to false
+					if (!isNumber(maxlength.value) || (parseInt(maxlength.value) < parseInt(minlength.value)))
+					{
+						maxlength.style.backgroundColor = "#E68A8A";
+						errorMessage.innerText = "Make sure the maximum word length is at least " + parseInt(minlength.value) + "!";
+						valid = false;
+					}
+					
+					// If the overall maximum length is not a number or it is less than four times the minimum length,
+					// then turn the overall length field red and set valid to false
+					if (!isNumber(length.value) || (parseInt(length.value) < (parseInt(minlength.value) * 4)))
+					{
+						length.style.backgroundColor = "#E68A8A";
+						errorMessage.innerText = "Make sure the maximum password length is at least " + (parseInt(minlength.value) * 4) + "!";
+						valid = false;
+					}
+				}
+				
+				return valid;
+			}
+			
+			// Disables submit button if given value is false
+			function disableSubmit(bool)
+			{
+				// Disable display of submit button if bool is false
+				if (!bool)
+				{
+					document.getElementById('submit').style.display = "none";
+				}
+				// Otherwise make sure the submit button is on
+				else
+				{
+					document.getElementById('submit').style.display = "block";
+				}
+			}
+		</script>
+	
+		<header>
+			<h1>XKCD Password Generator</h1>
+		</header>
+	
+		<section>
+			<h1>Options</h1>
+			<form method="get" action="cgi-bin/generator.py">
+				<label for="minlength" class="subsection">Minimum Word Length</label><input type="text" class="numberfield" id="minlength" name="minlength" value="4" onkeyup="disableSubmit(validateFields());"><br>
+				<label for="maxlength" class="subsection">Maximum Word Length</label><input type="text" class="numberfield" id="maxlength" name="maxlength" value="5" onkeyup="disableSubmit(validateFields());"><br>
+				<label for="length" class="subsection">Maximum Password Length</label><input type="text" class="numberfield" id="length" name="length" value="18" onkeyup="disableSubmit(validateFields());"><br>
+				<label for="optimize" class="subsection">Optimize for Typing Speed</label><input type="checkbox" id="optimize" name="optimize"><br>
+				<label for="substitutions" class="subsection">Substitutions</label>
+				<table class="optiontable" id="substitutions">
+					<tr>
+						<td><input type="checkbox" id="a" name="a"><label for="a">A to 4</label></td>
+						<td><input type="checkbox" id="e" name="e"><label for="e">E to 3</label></td>
+						<td><input type="checkbox" id="i" name="i"><label for="i">I to 1</label></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" id="l" name="l"><label for="l">L to 1</label></td>
+						<td><input type="checkbox" id="s" name="s"><label for="s">S to 5</label></td>
+						<td><input type="checkbox" id="o" name="o"><label for="o">O to 0</label></td>
+					</tr>
+				</table>
+				<label for="capitals" class="subsection">Capitalizations</label>
+				<table class="optiontable" id="capitals">
+					<tr>
+						<td><input type="checkbox" id="first" name="first"><label for="first">Capitalize first letter.</label></td>
+						<td><input type="checkbox" id="second" name="second"><label for="first">Capitalize second letter.</label></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" id="third" name="third"><label for="first">Capitalize third letter.</label></td>
+						<td><input type="checkbox" id="fourth" name="fourth"><label for="first">Capitalize fourth letter.</label></td>
+					</tr>
+				</table>
+				<input id="submit" type="submit" value="Generate!">
+				<h3 id="error"></h3>
+			</form>
+		</section>
+		
+		<footer>
+			<p>&copy; Copyright 2014, Joshua Jackson.</p>
+		</footer>
+	</body>
+	
+</html>
