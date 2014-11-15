@@ -197,8 +197,10 @@ class Generator(object):
 			if 'optimize' in self.options:
 				if self.isOptimized(revised_password.lower(), threshold) or threshold <= 0:
 					return revised_password
+				# Add to counter if not optimized
 				count += 1
-				if count >= 150:
+				# If password has failed to optimize 50 times, reduce the threshold
+				if count >= 50:
 					threshold -= 0.1
 			else:
 				return revised_password
