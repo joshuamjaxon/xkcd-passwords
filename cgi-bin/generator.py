@@ -31,7 +31,7 @@ class Generator(object):
 	
 	# Constructor
 	def __init__(self, query):
-		self.dictionary_path = 'cgi-bin\\words.txt'	# Path to dictionary to use
+		self.dictionary_path = 'words.txt'	# Path to dictionary to use
 		self.getDictionary(self.dictionary_path)	# Get dictionary from path
 		self.setOptions(query)						# Parse query string
 		self.helper = Helper()						# Object containing helper functions
@@ -55,16 +55,14 @@ class Generator(object):
 		# Open file
 		f = open(path);
 		# Iterate through lines
-		for line in f:
-			# Read next line in file
-			temp = f.readline()
+		for line in f.readlines():
 			# Only add to dictionary if word has no apostrophes
-			if temp.find('\'') == -1:
+			if line.find('\'') == -1:
 				# Add new key for word length if it doesn't already exist
-				if (len(temp) - 1) not in self.dictionary:
-					self.dictionary[len(temp) - 1] = []
+				if (len(line) - 1) not in self.dictionary:
+					self.dictionary[len(line) - 1] = []
 				# Add new word to dictionary
-				self.dictionary[len(temp) - 1].append(temp.strip('\n'))
+				self.dictionary[len(line) - 1].append(line.strip('\n'))
 		# Close the file
 		f.close()
 	
@@ -105,7 +103,7 @@ class Generator(object):
 						
 			
 	# Checks to see if a given string is optimized for typing
-	def isOptimized(self, word):
+	def isOptimized(self, word, threshold):
 		left = False	# Indicates if a character is on the left of the keyboard
 		right = False	# Indicates if a character is on the right of the keyboard
 		last = ""		# Last character
@@ -142,19 +140,12 @@ class Generator(object):
 				# Possibility 1: Add a point if letter is a duplicate
 				if char == last:
 					total += 1
-				
-				# elif char in self.helper.leftHandChars:
-					# left = True
-					# right = False
-				# else:
-					# left = False
-					# right = True
 			# Reassign last character to most recent character
 			last = char
 		# Find ratio of optimization points to word length
 		total /= len(word)
 		# Return true that word is optimized if ratio is at least 0.8
-		if total >= 0.8:
+		if total >= threshold:
 			return True
 		# Otherwise return false
 		else:
@@ -198,10 +189,17 @@ class Generator(object):
 			# Replace special characters
 			revised_password = self.substitute(password)
 			
+			# Create timeout condition
+			count = 0
+			threshold = 0.8
+			
 			# Break if word is optimized for typing speed
 			if 'optimize' in self.options:
-				if self.isOptimized(revised_password.lower()):
+				if self.isOptimized(revised_password.lower(), threshold) or threshold <= 0:
 					return revised_password
+				count += 1
+				if count >= 150:
+					threshold -= 0.1
 			else:
 				return revised_password
 
